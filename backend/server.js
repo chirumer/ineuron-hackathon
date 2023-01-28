@@ -10,20 +10,23 @@ app.use(bodyParser.json());
 
 const client = new Client({});
 
+
 client
-  .elevation({
+  .geocode({
     params: {
-      locations: [{ lat: 45, lng: -110 }],
-      key: process.env.GOOGLE_MAPS_API_KEY
+      // address: 'BMS College of Engineering',
+      latlng: '4,4',
+      key: process.env.GOOGLE_MAPS_API_KEY,
     },
-    timeout: 1000 // milliseconds
-  }, axios.create())
-  .then(r => {
-    console.log(r.data.results[0].elevation);
+    timeout: 1000, // milliseconds
   })
-  .catch(e => {
+  .then((r) => {
+    console.log(r.data);
+  })
+  .catch((e) => {
     console.log(e);
   });
+
 
 app.get('/', (req, res) => {
   res.send('Server Active')
