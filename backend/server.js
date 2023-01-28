@@ -35,7 +35,10 @@ async function get_directions(origin, destination) {
       },
       timeout: 1000
     });
-    return data;
+    if (!data.routes) {
+      throw new Error('No Route Found');
+    }
+    return data.routes[0].legs[0].steps.map(x => ({ end_location: x.end_location, instruction: x.html_instructions }));
   } catch(e) {
     console.log(e);
   }
@@ -51,13 +54,13 @@ app.post('/get_route', async (req, res) => {
   const from_place_id = await get_place_id(from.lat, from.lng);
   const to_place_id = await get_place_id(to.lat, to.lng);
 
-  const data = await get_directions(from_place_id, to_place_id);
-  console.log(data.routes[0].bounds);
-  console.log(data.routes[0].legs);
-  console.log(data.routes[0].legs[0].steps[0]);
-  console.log(data.routes[0].overview_polyline);
-
-  res.status(200).end();
+  try {
+    const end_locations = await get_directions(from_place_id, to_place_id);
+    res.json(end_locations);
+    return;
+  } catch(e) {
+    res.status(404).json({ failure_reason: 'No Routes Found' });
+  }
 });
 
 const PORT = process.env.PORT
