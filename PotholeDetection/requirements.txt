@@ -1,0 +1,10 @@
+Flask
+Werkzeug
+Pillow
+numpy
+opencv-python
+pytesseract
+regex
+gunicorn
+waitress
+Flask-Cors
