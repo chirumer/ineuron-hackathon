@@ -25,7 +25,7 @@ function deg2rad(deg) {
 
 async function set_destination(location) {
   navigator.geolocation.getCurrentPosition(async (position) => {
-    const { lattitude:lat, longitude:lng } = position.coords;
+    const { latitude:lat, longitude:lng } = position.coords;
     const post_data = { to: location, from: { lat, lng }};
 
     let response = await fetch('https://ineuronbackend-production.up.railway.app/get_route', {
@@ -41,10 +41,10 @@ async function set_destination(location) {
 
     directions_timer = setInterval(() => {
       navigator.geolocation.getCurrentPosition(async (position) => {
-        const { lattitude:lat, longitude:lng } = position.coords;
+        const { latitude:lat, longitude:lng } = position.coords;
 
         const threshold = 100; // 100 metres
-        if (getDistanceFromLatLonInKm(lat, lng, end_locations[0].lat, end_locations[0].lng) * 1000 < threshold) {
+        if (getDistanceFromLatLonInKm(lat, lng, end_locations[0].end_location.lat, end_locations[0].end_location.lng) * 1000 < threshold) {
           end_locations.shift()
           if (end_locations) {
             speak_direction(end_locations[0].instruction);
