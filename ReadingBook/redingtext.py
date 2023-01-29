@@ -14,7 +14,7 @@ from flask_cors import CORS, cross_origin
 from gtts import gTTS
 
 
-pytesseract.pytesseract.tesseract_cmd = "Tesseract-OCR//tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/Cellar/tesseract/5.3.0_1/bin"
 tessdata_dir_config = '--tessdata-dir "Tesseract-OCR/tessdata"'
 
 app = Flask(__name__)
